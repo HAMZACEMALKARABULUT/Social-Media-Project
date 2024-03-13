@@ -1,17 +1,20 @@
 package com.example.socialmediaproject.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name = "like")
 @Data
-public class Like {
+@Table(name = "p_like")
+public  class Like implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     Long userId;
+
     Long postId;
 }

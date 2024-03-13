@@ -1,0 +1,11 @@
+com\example\socialmediaproject\repositories\CommentRepository.class
+com\example\socialmediaproject\entities\Post.class
+com\example\socialmediaproject\entities\Comment.class
+com\example\socialmediaproject\controllers\UserController.class
+com\example\socialmediaproject\SocialMediaProjectApplication.class
+com\example\socialmediaproject\configurations\SecurityConfiguration.class
+com\example\socialmediaproject\repositories\LikeRepository.class
+com\example\socialmediaproject\repositories\UserRepository.class
+com\example\socialmediaproject\repositories\PostRepository.class
+com\example\socialmediaproject\entities\Like.class
+com\example\socialmediaproject\entities\User.class

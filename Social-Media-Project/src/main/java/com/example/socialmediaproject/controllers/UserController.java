@@ -24,30 +24,40 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User newUser) {
-
         return userRepository.save(newUser);
     }
 
     @PutMapping("/{userId}")
-    public User updateUser(@PathVariable Long id, @RequestBody User userToUpdate) {
-        Optional<User> user = userRepository.findById(id);
+    public User updateUser(@PathVariable Long userId, @RequestBody User userToUpdate) {
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             // this line will be checked for  an update process , may be incorrect
-            userToUpdate.setId(user.get().getId());
-            return userRepository.save(userToUpdate);
+           user.get().setUserName(userToUpdate.getUserName());
+           user.get().setPassword(userToUpdate.getPassword());
+            return userRepository.save(user.get());
         } else {
             return null;
         }
 
     }
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable Long userId){
+
+       userRepository.deleteById(userId);
+    }
 
 
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long id) {
+    public Optional<User> getUser(@PathVariable Long userId) {
 
         //custom exception throw
-        return userRepository.findById(id).orElse(null);
+         Optional<User> user=userRepository.findById(userId);
 
+         if(user.isPresent()){
+             return user;
+         }
+         else{
+        return null;}
     }
 
 }

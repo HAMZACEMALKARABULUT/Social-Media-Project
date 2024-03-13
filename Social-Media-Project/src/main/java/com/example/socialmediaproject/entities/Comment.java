@@ -4,12 +4,15 @@ package com.example.socialmediaproject.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
-@Data
-@Table(name = "comment")
+import java.io.Serializable;
 
-public class Comment {
+@Entity
+
+@Table(name = "comment")
+@Data
+public class Comment implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     Long userId;
     Long postId;
