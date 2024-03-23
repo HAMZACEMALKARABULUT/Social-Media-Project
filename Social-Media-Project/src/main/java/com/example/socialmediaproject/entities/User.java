@@ -8,15 +8,15 @@ import java.io.Serializable;
 @Entity
 @Table(name = "user")
 @Data
-public class User implements Serializable {
+public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-@Column(name="user_name")
+
     String userName;
-@Column(name="password")
+
     String password;
 
 }
