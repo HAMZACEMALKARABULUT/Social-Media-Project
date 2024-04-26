@@ -4,7 +4,7 @@ package com.example.socialmediaproject.controllers;
 
 import com.example.socialmediaproject.entities.Like;
 
-import com.example.socialmediaproject.repositories.LikeRepository;
+import com.example.socialmediaproject.services.LikeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +14,11 @@ import java.util.Optional;
 @RequestMapping("/likes")
 public class LikeController {
 
-    private LikeRepository likeRepository;
+    private LikeService likeService;
 
-    LikeController(LikeRepository likeRepository){
+    LikeController(LikeService likeService){
 
-        this.likeRepository=likeRepository;
+        this.likeService=likeService;
     }
 
 
@@ -27,26 +27,22 @@ public class LikeController {
     //---------------------------------------------------------------------
     @PostMapping
     public Like likePost(@RequestBody Like like) {
-        return likeRepository.save(like);
+        return likeService.save(like);
 
     }
 
     //---------------------------------------------------------------------
     @DeleteMapping("/{likeId}")
     public String removeLike(@PathVariable Long likeId) {
-        Optional<Like> like = likeRepository.findById(likeId);
-        if (like.isPresent()) {
-            likeRepository.delete(like.get());
-            return "Kaldırma işlemi başarılı";
-        } else {
-            return "Kaldırılacak beğeni bulunamadı";
+       return likeService.delete(likeId);
         }
-    }
+
+
 
     //---------------------------------------------------------------------
     @GetMapping("/{likeId}")
     public Like getLike(@PathVariable Long likeId) {
-        Optional<Like> like = likeRepository.findById(likeId);
+        Optional<Like> like = likeService.findById(likeId);
         if (like.isPresent()) {
             return like.get();
         } else {
@@ -58,7 +54,7 @@ public class LikeController {
     //---------------------------------------------------------------------
     @GetMapping("/user/{userId}")
     public List<Like> getAllLikesByUser(@PathVariable Long userId){
-        return likeRepository.findByUserId(userId);
+        return likeService.findByUserId(userId);
     }
 
 

@@ -2,6 +2,7 @@ package com.example.socialmediaproject.controllers;
 
 import com.example.socialmediaproject.entities.Post;
 import com.example.socialmediaproject.repositories.PostRepository;
+import com.example.socialmediaproject.services.PostService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,51 +13,43 @@ import java.util.Optional;
 public class PostController {
 
 
-    private PostRepository postRepository;
+    private PostService postService;
 
-    PostController(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    PostController(PostService postService) {
+        this.postService = postService;
     }
+
 
     //----------------------------------------------------------
     @PostMapping
     public Post createPost(@RequestBody Post post) {
 
-        return postRepository.save(post);
+        return postService.save(post);
 
     }
 
     //----------------------------------------------------------
     @DeleteMapping("/{postId}")
     public String deletePost(@PathVariable Long postId) {
+   return postService.delete(postId);
 
-        Optional<Post> post = postRepository.findById(postId);
-        if (post.isPresent()) {
-
-            postRepository.delete(post.get());
-            return "Post silindi";
-        } else {
-            return "Post bulunamadı";
-        }
     }
+
+
 
     //----------------------------------------------------------
 
+
     @GetMapping("/{postId}")
     public Post getPost(@PathVariable Long postId) {
-        Optional<Post> post = postRepository.findById(postId);
-        if (post.isPresent()) {
-            return post.get();
-        } else {
-            return null;
-        }
-
+            return postService.findById(postId);
     }
+
     //----------------------------------------------------------
     @GetMapping("/user/{userId}")
     public List<Post>  getPostsByUserId(@PathVariable Long userId){
 
-        return postRepository.findByUserId(userId);
+        return postService.findByUserId(userId);
     }
 
     //----------------------------------------------------------

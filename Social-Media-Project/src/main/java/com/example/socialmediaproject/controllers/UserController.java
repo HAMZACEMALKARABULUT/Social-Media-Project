@@ -1,7 +1,8 @@
 package com.example.socialmediaproject.controllers;
 
 import com.example.socialmediaproject.entities.User;
-import com.example.socialmediaproject.repositories.UserRepository;
+
+import com.example.socialmediaproject.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,53 +12,51 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+
+
+        this.userService = userService;
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
     @PostMapping
     public User createUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+        return userService.save(newUser);
     }
 
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable Long userId, @RequestBody User userToUpdate) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            // this line will be checked for  an update process , may be incorrect
-           user.get().setUserName(userToUpdate.getUserName());
-           user.get().setPassword(userToUpdate.getPassword());
-            return userRepository.save(user.get());
-        } else {
-            return null;
-        }
+
+        return userService.updateUser(userId, userToUpdate);
+
 
     }
+
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long userId){
+    public String deleteUser(@PathVariable Long userId) {
 
-       userRepository.deleteById(userId);
+        return userService.deleteById(userId);
     }
-
 
     @GetMapping("/{userId}")
     public Optional<User> getUser(@PathVariable Long userId) {
 
         //custom exception throw
-         Optional<User> user=userRepository.findById(userId);
+        return userService.findById(userId);
 
-         if(user.isPresent()){
-             return user;
-         }
-         else{
-        return null;}
+
     }
+    @PostMapping("/login")
+    public User userAuthentication(@RequestBody User user){
+
+        return userService.userAuthentication(user.getUserName(),user.getPassword());
+    }
+
 
 }
