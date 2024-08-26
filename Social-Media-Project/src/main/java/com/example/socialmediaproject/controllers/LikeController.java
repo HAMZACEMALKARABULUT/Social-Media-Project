@@ -22,14 +22,13 @@ public class LikeController {
     }
 
 
-
-
     //---------------------------------------------------------------------
     @PostMapping
     public Like likePost(@RequestBody Like like) {
         return likeService.save(like);
 
     }
+
 
     //---------------------------------------------------------------------
     @DeleteMapping("/{likeId}")
@@ -42,13 +41,7 @@ public class LikeController {
     //---------------------------------------------------------------------
     @GetMapping("/{likeId}")
     public Like getLike(@PathVariable Long likeId) {
-        Optional<Like> like = likeService.findById(likeId);
-        if (like.isPresent()) {
-            return like.get();
-        } else {
-            return null;
-        }
-
+      return likeService.findById(likeId);
     }
 
     //---------------------------------------------------------------------

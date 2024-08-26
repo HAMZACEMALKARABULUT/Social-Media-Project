@@ -16,7 +16,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({CustomException.class})
     public ResponseEntity<Object> handleCustomException(CustomException e){
 
-
         return ResponseEntity
                 .status((HttpStatus.INTERNAL_SERVER_ERROR))
                 .body(e.getMessage());

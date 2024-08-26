@@ -19,8 +19,15 @@ public class LikeService {
 
 
 
-    public Optional<Like> findById(Long likeId) {
-        return likeRepository.findById(likeId);
+    public Like findById(Long likeId) {
+
+        Optional<Like> like = likeRepository.findById(likeId);
+        if (like.isPresent()) {
+            return like.get();
+        } else {
+            return null;
+        }
+
 
     }
 

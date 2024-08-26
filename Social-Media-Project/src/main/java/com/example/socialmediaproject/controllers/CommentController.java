@@ -3,6 +3,9 @@ package com.example.socialmediaproject.controllers;
 
 import com.example.socialmediaproject.entities.Comment;
 import com.example.socialmediaproject.repositories.CommentRepository;
+import com.example.socialmediaproject.requests.CommentCreateRequest;
+import com.example.socialmediaproject.services.CommentService;
+import com.example.socialmediaproject.services.exception.CustomException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,50 +18,42 @@ import java.util.Optional;
 public class CommentController {
 
     //---------------------------------------------------------------------
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
-    CommentController(CommentRepository commentRepository) {
 
-        this.commentRepository = commentRepository;
+    CommentController(CommentService commentService) {
+
+        this.commentService = commentService;
     }
 
     //---------------------------------------------------------------------
     @PostMapping
-    public Comment createComment(@RequestBody Comment comment) {
-        return commentRepository.save(comment);
+    public Comment createComment(@RequestBody CommentCreateRequest comment) {
+
+        return commentService.createComment(comment);
 
     }
 
     //---------------------------------------------------------------------
     @DeleteMapping("/{commentId}")
     public String deleteComment(@PathVariable Long commentId) {
-        Optional<Comment> comment = commentRepository.findById(commentId);
-        if (comment.isPresent()) {
-            commentRepository.delete(comment.get());
-            return "Silme işlemi başarılı";
-        } else {
-            return "Silinecek yorum bulunamadı";
-        }
+        return commentService.delete(commentId);
     }
+
 
     //---------------------------------------------------------------------
     @GetMapping("/{commentId}")
+
     public Comment getComment(@PathVariable Long commentId) {
-        Optional<Comment> comment = commentRepository.findById(commentId);
-        if (comment.isPresent()) {
-            return comment.get();
-        } else {
-            return null;
-
-
-        }
+        return commentService.findById(commentId);
 
     }
 
     //---------------------------------------------------------------------
     @GetMapping
-    public List<Comment> getAllComments(){
-        return commentRepository.findAll();
+    public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
+     return commentService.getAllCommentsWithParam(userId,postId);
+
     }
 
 

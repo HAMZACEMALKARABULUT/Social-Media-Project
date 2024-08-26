@@ -7,7 +7,6 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.io.Serializable;
 
 @Entity
 @Table(name = "post")
@@ -19,8 +18,8 @@ public class Post {
     Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     User user;
     String title;
     @Lob

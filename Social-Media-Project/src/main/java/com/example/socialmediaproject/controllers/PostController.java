@@ -2,6 +2,8 @@ package com.example.socialmediaproject.controllers;
 
 import com.example.socialmediaproject.entities.Post;
 import com.example.socialmediaproject.repositories.PostRepository;
+import com.example.socialmediaproject.requests.PostCreateRequest;
+import com.example.socialmediaproject.requests.PostUpdateRequest;
 import com.example.socialmediaproject.services.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +24,9 @@ public class PostController {
 
     //----------------------------------------------------------
     @PostMapping
-    public Post createPost(@RequestBody Post post) {
+    public Post createPost(@RequestBody PostCreateRequest post) {
 
-        return postService.save(post);
-
+        return postService.createOneUser(post);
     }
 
     //----------------------------------------------------------
@@ -46,8 +47,8 @@ public class PostController {
     }
 
     //----------------------------------------------------------
-    @GetMapping("/user/{userId}")
-    public List<Post>  getPostsByUserId(@PathVariable Long userId){
+    @GetMapping()
+    public List<Post>  getPostsByUserId(@RequestParam Long userId){
 
         return postService.findByUserId(userId);
     }
@@ -55,6 +56,11 @@ public class PostController {
     //----------------------------------------------------------
 
 
+    @PutMapping("/{postId}")
+    public Post updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postToUpdate){
 
+
+        return postService.updatePostById(postId,postToUpdate);
+    }
 
 }
